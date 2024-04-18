@@ -1,0 +1,90 @@
+---
+title: "Tarea2-Magalalnes"
+author: "Charles Gabriel Sánchez Salas"
+date: "2024-04-15"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+install.packages("installr")
+```
+
+```{r}
+library(sf)
+```
+
+```{r}
+library(ggplot2)
+library(rio)
+library(sf)
+```
+
+# Importar librerias
+
+```{r}
+linkgeo="https://github.com/Pepix2345/introgeodf/raw/main/maps/worldMap.gpkg"
+```
+
+```{r}
+sf:: st_layers(linkgeo)
+```
+# Ejercicio 1
+
+```{r}
+countries= read_sf(linkgeo, layer="countryBorders")
+rivers= read_sf(linkgeo, layer="riverLines")
+cities= read_sf(linkgeo, layer="cityPoints")
+```
+
+```{r}
+basemap=ggplot(data=countries)  + geom_sf(fill='grey90') + theme_light()
+finalmap=basemap + geom_sf(data=rivers, color='blue') + geom_sf(data=cities, color='red') 
+finalmap
+```
+# Ejercicio 2
+
+Importamos la data tratada en phyton: 
+
+```{r}
+linkPeru= "https://github.com/Pepix2345/introgeodf/raw/main/maps/Perumap.gpkg"
+```
+
+```{r}
+sf:: st_layers(linkPeru)
+```
+```{r}
+Peru= read_sf(linkPeru, layer= "Peruborders") 
+Peru_cities= read_sf(linkPeru, layer= "Perupoints")
+Peru_rivers= read_sf(linkPeru, layer= "Perulines")
+```
+
+```{r}
+basePeru= ggplot(data= Peru) + geom_sf(fill= 'red') + theme_light()
+finalPeru= basePeru + geom_sf(data= Peru_cities, color= 'white') + geom_sf(data= Peru_rivers, color= 'greenyellow')
+finalPeru
+```
+```{r}
+linkperurepro="https://github.com/Pepix2345/introgeodf/raw/main/maps/Peru24891.gpkg"
+```
+
+# Ejercicio 3
+
+```{r}
+sf:: st_layers(linkperurepro)
+```
+`
+```{r}
+perurepro= read_sf(linkperurepro, layer= 'country' )
+peruairportsrepro= read_sf(linkperurepro, layer= 'airports')
+```
+
+```{r}
+baserepro= ggplot(data= perurepro) + geom_sf(fill= "red") + theme_light()
+basefinalrepro= baserepro + geom_sf(data= peruairportsrepro, color= "white")
+basefinalrepro
+```
+
