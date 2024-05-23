@@ -1,5 +1,5 @@
 ---
-title: "Tarea2-Magalalnes"
+title: "Tarea2-Magallanes"
 author: "Charles Gabriel Sánchez Salas"
 date: "2024-04-15"
 output: html_document
@@ -7,14 +7,6 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
-```
-
-```{r}
-install.packages("installr")
-```
-
-```{r}
-library(sf)
 ```
 
 ```{r}
@@ -32,6 +24,7 @@ linkgeo="https://github.com/Pepix2345/introgeodf/raw/main/maps/worldMap.gpkg"
 ```{r}
 sf:: st_layers(linkgeo)
 ```
+
 # Ejercicio 1
 
 ```{r}
@@ -45,9 +38,10 @@ basemap=ggplot(data=countries)  + geom_sf(fill='grey90') + theme_light()
 finalmap=basemap + geom_sf(data=rivers, color='blue') + geom_sf(data=cities, color='red') 
 finalmap
 ```
+
 # Ejercicio 2
 
-Importamos la data tratada en phyton: 
+Importamos la data tratada en phyton:
 
 ```{r}
 linkPeru= "https://github.com/Pepix2345/introgeodf/raw/main/maps/Perumap.gpkg"
@@ -56,6 +50,7 @@ linkPeru= "https://github.com/Pepix2345/introgeodf/raw/main/maps/Perumap.gpkg"
 ```{r}
 sf:: st_layers(linkPeru)
 ```
+
 ```{r}
 Peru= read_sf(linkPeru, layer= "Peruborders") 
 Peru_cities= read_sf(linkPeru, layer= "Perupoints")
@@ -67,6 +62,7 @@ basePeru= ggplot(data= Peru) + geom_sf(fill= 'red') + theme_light()
 finalPeru= basePeru + geom_sf(data= Peru_cities, color= 'white') + geom_sf(data= Peru_rivers, color= 'greenyellow')
 finalPeru
 ```
+
 ```{r}
 linkperurepro="https://github.com/Pepix2345/introgeodf/raw/main/maps/Peru24891.gpkg"
 ```
@@ -76,15 +72,39 @@ linkperurepro="https://github.com/Pepix2345/introgeodf/raw/main/maps/Peru24891.g
 ```{r}
 sf:: st_layers(linkperurepro)
 ```
-`
+
+\`
+
 ```{r}
 perurepro= read_sf(linkperurepro, layer= 'country' )
 peruairportsrepro= read_sf(linkperurepro, layer= 'airports')
 ```
 
 ```{r}
-baserepro= ggplot(data= perurepro) + geom_sf(fill= "red") + theme_light()
-basefinalrepro= baserepro + geom_sf(data= peruairportsrepro, color= "white")
+baserepro= ggplot(data= perurepro) + geom_sf(fill= "grey90") + theme_light()
+basefinalrepro= baserepro + geom_sf(data= peruairportsrepro, color= "white") + geom_sf(data=Peru_rivers, color= "blue") + geom_sf(data= peruairportsrepro, color="black") + geom_sf(data=Peru_cities, color='red') +  coord_sf(datum = st_crs(perurepro))
 basefinalrepro
 ```
 
+# Ejercicio 4
+
+```{r}
+linkamericas="https://github.com/Pepix2345/introgeodf/raw/main/maps/americas8858.gpkg"
+```
+
+```{r}
+sf:: st_layers(linkamericas)
+```
+
+```{r}
+americasproject=read_sf(linkamericas, layer='countries')
+americascentroids= read_sf(linkamericas, layer = 'centroids')
+```
+
+```{r}
+baseamericas= ggplot(data=americasproject) + geom_sf(fill='grey90') + theme_light()
+finalamericas= baseamericas + geom_sf(data=americascentroids, aes(color=Total_ei5_cat), size= 2 + americascentroids$Total_ei5) + 
+  guides(size= NULL) + 
+  coord_sf(datum= st_crs(americasproject))
+finalamericas
+```
